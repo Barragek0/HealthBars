@@ -53,7 +53,7 @@ namespace HealthBars
                 windowRectangle = GameController.Window.GetWindowRectangleReal();
                 windowSize = new Size2F(windowRectangle.Width / 2560, windowRectangle.Height / 1600);
                 camera = GameController.Game.IngameState.Camera;
-                
+
                 return ingameUI.BetrayalWindow.IsVisibleLocal || ingameUI.SellWindow.IsVisibleLocal ||
                        ingameUI.DelveWindow.IsVisibleLocal || ingameUI.IncursionWindow.IsVisibleLocal ||
                        ingameUI.UnveilWindow.IsVisibleLocal || ingameUI.TreePanel.IsVisibleLocal || ingameUI.Atlas.IsVisibleLocal ||
@@ -70,7 +70,7 @@ namespace HealthBars
             if (File.Exists(path))
             {
                 IgnoredEntities = File.ReadAllLines(path).Where(line => !string.IsNullOrWhiteSpace(line) && !line.StartsWith("#")).ToList();
-            } 
+            }
             else
             {
                 LogError($"Ignored entities file does not exist. Path: {path}");
@@ -91,9 +91,9 @@ namespace HealthBars
             if (!healthBar.Entity.IsAlive) return true;
             if (healthBar.HpPercent < 0.001f) return true;
             if (healthBar.Type == CreatureType.Minion && healthBar.HpPercent * 100 > Settings.ShowMinionOnlyBelowHp) return true;
-/*            if (healthBar.Entity.League == LeagueType.Legion && healthBar.Entity.IsHidden 
-                && healthBar.Entity.Rarity != MonsterRarity.Unique 
-                && healthBar.Entity.Rarity != MonsterRarity.Rare) return true;*/
+            /*            if (healthBar.Entity.League == LeagueType.Legion && healthBar.Entity.IsHidden 
+                            && healthBar.Entity.Rarity != MonsterRarity.Unique 
+                            && healthBar.Entity.Rarity != MonsterRarity.Rare) return true;*/
 
             return false;
         }
@@ -275,7 +275,7 @@ namespace HealthBars
             if (bar.Settings.ShowHealthText)
             {
                 healthBarText = $"{bar.Life.CurHP.ToString("N0")}/{bar.Life.MaxHP.ToString("N0")}";
-            } 
+            }
             else if (bar.Settings.ShowEnergyShieldText)
             {
                 healthBarText = $"{bar.Life.CurES.ToString("N0")}/{bar.Life.MaxES.ToString("N0")}";
@@ -283,7 +283,7 @@ namespace HealthBars
 
             Graphics.DrawText(healthBarText,
                 new Vector2(bar.BackGround.Center.X, bar.BackGround.Center.Y - Graphics.Font.Size / 2f),
-                bar.Settings.HealthTextColor, 
+                bar.Settings.HealthTextColor,
                 FontAlign.Center);
         }
 
@@ -333,15 +333,15 @@ namespace HealthBars
             }
         }
 
-        private string FloatToPercentString (float number)
+        private string FloatToPercentString(float number)
         {
             return $"{Math.Floor(number * 100).ToString(CultureInfo.InvariantCulture)}";
         }
 
         public override void EntityAdded(Entity Entity)
         {
-            if (Entity.Type != EntityType.Monster && Entity.Type != EntityType.Player 
-                || Entity.Address == GameController.Player.Address 
+            if (Entity.Type != EntityType.Monster && Entity.Type != EntityType.Player
+                || Entity.Address == GameController.Player.Address
                 || Entity.Type == EntityType.Daemon) return;
 
             if (Entity.GetComponent<Life>() != null && !Entity.IsAlive) return;
